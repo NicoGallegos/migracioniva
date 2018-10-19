@@ -1,4 +1,4 @@
-# migracioniva
+# Migracion iva
 
 Desarrollo para migrar informacion de proyectod de IVA desarrollado en Clarion.
 El proyecto toma informacion de una bd sql y la convierte en archivos que son input de otra app. 
