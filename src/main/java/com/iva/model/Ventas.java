@@ -1,17 +1,21 @@
 package com.iva.model;
 
 
+import java.util.Date;
+
 import javax.persistence.Entity;
 import javax.persistence.Id;
 
+import org.apache.commons.lang3.StringUtils;
+
 @Entity(name="ivvtasgu")
-public class Ventas {
+public class Ventas{
 
     @Id
     private Integer id;
 	
 	/*REPLICO ELEMENTOS ORIGINALES DEL SISTEMA VIEJO, SIN CAMBIAR NOMBRES*/
-	  private Integer feccom;
+	  private Integer feccom;//Representa nro de didas desde la fecha  1800-12-28 ( Clarion :| ) , convertido en date.
 	  private String tipcom;
 	  private String letra;
 	  private Integer nroloc;
@@ -29,15 +33,35 @@ public class Ventas {
 	  private Float impper;
 	  private Float impiv1;
 	  private Float impiv2;
+	  private Float impiv3;
+	  private Float impiv4;
+	  private Float impiv5;
+	  private Float impiv6;
 	  private Float impiin;
-	  private Float imptotal;
+	  private Float imptot;
 	  private String nrohas;
-	  private Integer mesano;
+	  private Integer mesano; //Se usa para buscar, se llama mesano, pero la informacion esta guardada en la base como anomes :) 
 	  private Float impv3;
 	  private Float impv4;
 	  private Float impv5;
 	  private Float impv6;
+	  private Date fecha;
 	  
+	  
+	public Float getTotalImpGravados() {
+		return impgra + impgra1 + impgra2;
+	}
+	  
+	public Float getTotalImpIVA() {
+		return impiv1 + impiv2 + impiv3 + impiv4 + impiv5 + impiv6;
+	}
+	
+	public String getComprobante() {
+		return tipcom + "." + letra + StringUtils.leftPad(nroloc.toString(), 4, "0") + " " + StringUtils.leftPad(nrocom.toString(), 8,"0");
+	}
+	
+	
+//--GETTERS Y SETTERS	
 	public Integer getFeccom() {
 		return feccom;
 	}
@@ -152,11 +176,11 @@ public class Ventas {
 	public void setImpiin(Float impiin) {
 		this.impiin = impiin;
 	}
-	public Float getImptotal() {
-		return imptotal;
+	public Float getImptot() {
+		return imptot;
 	}
-	public void setImptotal(Float imptotal) {
-		this.imptotal = imptotal;
+	public void setImptot(Float imptotal) {
+		this.imptot = imptotal;
 	}
 	public String getNrohas() {
 		return nrohas;
@@ -194,6 +218,59 @@ public class Ventas {
 	public void setImpv6(Float impv6) {
 		this.impv6 = impv6;
 	}
+	public Date getFecha() {
+		return fecha;
+	}
+	public void setFecha(Date fecha) {
+		this.fecha = fecha;
+	}
+
+	public Integer getId() {
+		return id;
+	}
+
+	public void setId(Integer id) {
+		this.id = id;
+	}
+
+	public Float getImpiv3() {
+		return impiv3;
+	}
+
+	public void setImpiv3(Float impiv3) {
+		this.impiv3 = impiv3;
+	}
+
+	public Float getImpiv4() {
+		return impiv4;
+	}
+
+	public void setImpiv4(Float impiv4) {
+		this.impiv4 = impiv4;
+	}
+
+	public Float getImpiv5() {
+		return impiv5;
+	}
+
+	public void setImpiv5(Float impiv5) {
+		this.impiv5 = impiv5;
+	}
+
+	public Float getImpiv6() {
+		return impiv6;
+	}
+
+	public void setImpiv6(Float impiv6) {
+		this.impiv6 = impiv6;
+	}
 	
 	
+//	private Float floatToDosDecimales(Float number) {
+//		NumberFormat formatter = NumberFormat.getInstance(Locale.getDefault());
+//		formatter.setMaximumFractionDigits(2);
+//		formatter.setMinimumFractionDigits(2);
+//		return new Float(formatter.format(number));
+//	}
+//	
 }

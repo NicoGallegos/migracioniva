@@ -13,24 +13,26 @@ import com.iva.process.Processor;
 
 @SpringBootApplication
 public class MigracionIVAApplication implements CommandLineRunner {
- 
-	
 
-    private static Logger LOG = LoggerFactory.getLogger(MigracionIVAApplication.class);
-	
-    @Autowired
-    private Processor processor;
-    
-    public static void main(String[] args) {
-        LOG.info("STARTING THE APPLICATION");
-        SpringApplication.run(MigracionIVAApplication.class, args);
-        LOG.info("APPLICATION FINISHED");
-    }
-  
-    @Override
-    public void run(String... args) {
-        LOG.info("EXECUTING : command line runner");
-        processor.process();
-    }
-    
+
+	private static Logger LOG = LoggerFactory.getLogger(MigracionIVAApplication.class);
+
+	@Autowired
+	private Processor processor;
+
+	public static void main(String[] args) {
+		LOG.info("STARTING THE APPLICATION");
+		SpringApplication.run(MigracionIVAApplication.class, args);
+		LOG.info("APPLICATION FINISHED");
+	}
+
+	@Override
+	public void run(String... args) {
+		String filePath = "C:\\Users\\nicol\\Desktop\\GENERADOS\\";
+		Integer year = 1600;
+		for (int i = 1; i <= 12; i++) {
+			processor.process(year+i,filePath);
+		}
+	}
+
 }

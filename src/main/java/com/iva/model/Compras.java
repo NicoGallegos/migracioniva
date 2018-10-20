@@ -1,12 +1,13 @@
 package com.iva.model;
 
 import java.text.SimpleDateFormat;
+import java.util.Date;
 
 import javax.persistence.Entity;
 import javax.persistence.Id;
 
 @Entity(name="ivacompr")
-public class Compras {
+public class Compras{
 
     @Id
     private Integer id;
@@ -41,13 +42,8 @@ public class Compras {
 	  private Float impv5;
 	  private Float impv6;
 	  private Float comono;
+	  private Date fecha;
 
-	  
-	 public String getFecha() {
-		 SimpleDateFormat sdf = new SimpleDateFormat("d/m/Y");
-		 return sdf.format( this.getFeccom() + this.getMesano());
-	 } 
-	  
 	  
 //	 Getter y Setters
 	  
@@ -224,6 +220,18 @@ public class Compras {
 	}
 	public void setComono(Float comono) {
 		this.comono = comono;
+	}
+	public Integer getId() {
+		return id;
+	}
+	public void setId(Integer id) {
+		this.id = id;
+	}
+	public Date getFecha() {
+		return fecha;
+	}
+	public void setFecha(Date fecha) {
+		this.fecha = fecha;
 	}
 	  
 }
