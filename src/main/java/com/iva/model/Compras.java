@@ -1,10 +1,11 @@
 package com.iva.model;
 
-import java.text.SimpleDateFormat;
 import java.util.Date;
 
 import javax.persistence.Entity;
 import javax.persistence.Id;
+
+import org.apache.commons.lang3.StringUtils;
 
 @Entity(name="ivacompr")
 public class Compras{
@@ -31,6 +32,10 @@ public class Compras{
 	  private Float impper;
 	  private Float impiv1;
 	  private Float impiv2;
+	  private Float impiv3;
+	  private Float impiv4;	
+	  private Float impiv5;
+	  private Float impiv6;
 	  private Float impiin;
 	  private Float imptotal;
 	  private Float impret;
@@ -44,6 +49,19 @@ public class Compras{
 	  private Float comono;
 	  private Date fecha;
 
+
+		public Float getTotalImpGravados() {
+			return impgra + impgra1 + impgra2;
+		}
+		  
+		public Float getTotalImpIVA() {
+			return impiv1 + impiv2 + impiv3 + impiv4 + impiv5 + impiv6;
+		}
+		
+		public String getComprobante() {
+			return tipcom + "." + letra + StringUtils.leftPad(nroloc.toString(), 4, "0") + " " + StringUtils.leftPad(nrocom.toString(), 8,"0");
+		}
+	  
 	  
 //	 Getter y Setters
 	  
