@@ -1,6 +1,7 @@
 package com.iva.model;
 
 
+import java.text.SimpleDateFormat;
 import java.util.Date;
 
 import javax.persistence.Entity;
@@ -59,6 +60,24 @@ public class Ventas{
 	public String getComprobante() {
 		return tipcom + "." + letra + StringUtils.leftPad(nroloc.toString(), 4, "0") + " " + StringUtils.leftPad(nrocom.toString(), 8,"0");
 	}
+
+	public String getTipoComprador() {
+		if (this.tipiva.equals("1"))
+			return "99";
+	//CUIT
+		return "80";
+	}
+
+	
+	public String getTipoComprobante() {
+		//TODO DEFINIR LOS NUMEROS
+		return null;
+	}
+	
+	
+	public String getFechaArchivo() {
+		return new SimpleDateFormat("ddMMyyyy"). format(this.fecha);
+	}	
 	
 	
 //--GETTERS Y SETTERS	
@@ -264,6 +283,8 @@ public class Ventas{
 	public void setImpiv6(Float impiv6) {
 		this.impiv6 = impiv6;
 	}
+
+
 	
 	
 //	private Float floatToDosDecimales(Float number) {
