@@ -2,11 +2,8 @@ package com.iva.process;
 
 import java.io.File;
 import java.io.IOException;
-import java.math.RoundingMode;
-import java.text.NumberFormat;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Locale;
 
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.lang3.StringUtils;
@@ -103,7 +100,7 @@ public class VentasProcessor {
 
 		for (Ventas venta : ventas) {
 			file.append(StringUtils.leftPad(venta.getFechaArchivo(),8,"0"));//fecha
-			file.append(StringUtils.leftPad(venta.getTipoComprobante()),3,"0"));//tipo comprobante
+			//file.append(StringUtils.leftPad(venta.getTipoComprobante()),3,"0"));//tipo comprobante
 			file.append(StringUtils.leftPad(venta.getNroloc().toString(),5,"0"));//punto de venta
 			file.append(StringUtils.leftPad(venta.getNrocom().toString(),20,"0"));//nro comprobante
 			file.append(StringUtils.leftPad(venta.getNrocom().toString(),20,"0"));//nrocomprobantehasta
@@ -122,7 +119,7 @@ public class VentasProcessor {
 			file.append(StringUtils.leftPad("PES",3,""));//cod moneda
 			file.append(StringUtils.leftPad("1",4,"0") + StringUtils.leftPad("",6,"0"));//tipo cambio , 4 enteros, 6 decimales
 
-			if (venta.getLetra().toLowerCase().equals("z")) //cant alicuotas	
+			if (venta.getTipcom().toLowerCase().equals("z")) //cant alicuotas	
 				file.append(StringUtils.leftPad("2",1,"0"));	
 			else
 				file.append(StringUtils.leftPad("1",1,"0"));

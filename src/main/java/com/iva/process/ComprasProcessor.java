@@ -46,9 +46,9 @@ public class ComprasProcessor {
 		Float totalInternos = 0f;
 		Float totalPercepciones = 0f;
 		Float totalTotal = 0f;
-
+/*
 		for (Compras compra : compras) {
-			/*
+			
 			 * 
 			 * file.append(compra.getFecha() + ";");
 			file.append(compra.getComprobante() + ";");
@@ -70,9 +70,9 @@ public class ComprasProcessor {
 			totalPercepciones += (compra.getImpper());
 			totalTotal += (compra.getImptot());
 			 *
-			 */
+			 
 		}
-
+*/
 		file.append(";");
 		file.append(";");
 		file.append(";");

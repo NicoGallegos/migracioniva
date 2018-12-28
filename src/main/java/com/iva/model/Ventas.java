@@ -12,51 +12,51 @@ import org.apache.commons.lang3.StringUtils;
 @Entity(name="ivvtasgu")
 public class Ventas{
 
-    @Id
-    private Integer id;
-	
+	@Id
+	private Integer id;
+
 	/*REPLICO ELEMENTOS ORIGINALES DEL SISTEMA VIEJO, SIN CAMBIAR NOMBRES*/
-	  private Integer feccom;//Representa nro de didas desde la fecha  1800-12-28 ( Clarion :| ) , convertido en date.
-	  private String tipcom;
-	  private String letra;
-	  private Integer nroloc;
-	  private Integer nrocom;
-	  private Integer codpcli;
-	  private String razsoc;
-	  private String domcom;
-	  private String tipiva;
-	  private String nrcuit;
-	  private Integer codint;
-	  private Float impgra;
-	  private Float impgra1;
-	  private Float impgra2;
-	  private Float impexe;
-	  private Float impper;
-	  private Float impiv1;
-	  private Float impiv2;
-	  private Float impiv3;
-	  private Float impiv4;
-	  private Float impiv5;
-	  private Float impiv6;
-	  private Float impiin;
-	  private Float imptot;
-	  private String nrohas;
-	  private Integer mesano; //Se usa para buscar, se llama mesano, pero la informacion esta guardada en la base como anomes :) 
-	  private Float impv3;
-	  private Float impv4;
-	  private Float impv5;
-	  private Float impv6;
-	  private Date fecha;
-	  
-	  
+	private Integer feccom;//Representa nro de didas desde la fecha  1800-12-28 ( Clarion :| ) , convertido en date.
+	private String tipcom; // FC o Z
+	private String letra; // A, B
+	private Integer nroloc; //punto de venta
+	private Integer nrocom; //nro comprobante
+	private Integer codpcli;
+	private String razsoc;
+	private String domcom;
+	private String tipiva;
+	private String nrcuit;
+	private Integer codint;
+	private Float impgra;
+	private Float impgra1;
+	private Float impgra2;
+	private Float impexe;
+	private Float impper;
+	private Float impiv1;
+	private Float impiv2;
+	private Float impiv3;
+	private Float impiv4;
+	private Float impiv5;
+	private Float impiv6;
+	private Float impiin;
+	private Float imptot;
+	private String nrohas;
+	private Integer mesano; //Se usa para buscar, se llama mesano, pero la informacion esta guardada en la base como anomes :) 
+	private Float impv3;
+	private Float impv4;
+	private Float impv5;
+	private Float impv6;
+	private Date fecha;
+
+
 	public Float getTotalImpGravados() {
 		return impgra + impgra1 + impgra2;
 	}
-	  
+
 	public Float getTotalImpIVA() {
 		return impiv1 + impiv2 + impiv3 + impiv4 + impiv5 + impiv6;
 	}
-	
+
 	public String getComprobante() {
 		return tipcom + "." + letra + StringUtils.leftPad(nroloc.toString(), 4, "0") + " " + StringUtils.leftPad(nrocom.toString(), 8,"0");
 	}
@@ -64,23 +64,38 @@ public class Ventas{
 	public String getTipoComprador() {
 		if (this.tipiva.equals("1"))
 			return "99";
-	//CUIT
+		//CUIT
 		return "80";
 	}
 
-	
+
 	public String getTipoComprobante() {
-		//TODO DEFINIR LOS NUMEROS
-		return null;
+		/*
+		Letra A = 001
+		Letra B:
+		  Pto de venta :2 -> 006
+		  Pto de venta :4 -> 082
+
+		 * */
+
+		if (this.letra.toUpperCase() == "A")
+			return "001";
+		else {
+			if (this.nroloc == 2)
+				return "006";
+			else
+				return "082";
+		}
+
 	}
-	
-	
+
+
 	public String getFechaArchivo() {
 		return new SimpleDateFormat("ddMMyyyy"). format(this.fecha);
 	}	
-	
-	
-//--GETTERS Y SETTERS	
+
+
+	//--GETTERS Y SETTERS	
 	public Integer getFeccom() {
 		return feccom;
 	}
@@ -285,13 +300,13 @@ public class Ventas{
 	}
 
 
-	
-	
-//	private Float floatToDosDecimales(Float number) {
-//		NumberFormat formatter = NumberFormat.getInstance(Locale.getDefault());
-//		formatter.setMaximumFractionDigits(2);
-//		formatter.setMinimumFractionDigits(2);
-//		return new Float(formatter.format(number));
-//	}
-//	
+
+
+	//	private Float floatToDosDecimales(Float number) {
+	//		NumberFormat formatter = NumberFormat.getInstance(Locale.getDefault());
+	//		formatter.setMaximumFractionDigits(2);
+	//		formatter.setMinimumFractionDigits(2);
+	//		return new Float(formatter.format(number));
+	//	}
+	//	
 }
