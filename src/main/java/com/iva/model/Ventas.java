@@ -91,7 +91,7 @@ public class Ventas{
 
 
 	public String getFechaArchivo() {
-		return new SimpleDateFormat("ddMMyyyy"). format(this.fecha);
+		return new SimpleDateFormat("yyyyMMdd"). format(this.fecha);
 	}	
 
 
@@ -298,8 +298,6 @@ public class Ventas{
 	public void setImpiv6(Float impiv6) {
 		this.impiv6 = impiv6;
 	}
-
-
 
 
 	//	private Float floatToDosDecimales(Float number) {
