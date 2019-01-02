@@ -102,7 +102,6 @@ public class VentasProcessor {
 
 		StringBuilder file = new StringBuilder();
 
-		int i = 0;
 		for (Ventas venta : ventas) {
 			file.append(StringUtils.leftPad(venta.getFechaArchivo(),8,"0"));//fecha
 			file.append(StringUtils.leftPad(venta.getTipoComprobante(),3,"0"));//tipo comprobante
@@ -131,6 +130,7 @@ public class VentasProcessor {
 
 			file.append(StringUtils.leftPad("0",1,"")); //cod operacion
 			file.append(StringUtils.leftPad("1",15,"0")); //otros tributos
+			
 			if (venta.getTipoComprobante() == "082")
 				file.append(StringUtils.leftPad("0",8,"0"));
 			else
