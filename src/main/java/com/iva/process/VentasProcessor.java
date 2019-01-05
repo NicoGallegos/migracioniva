@@ -28,11 +28,12 @@ public class VentasProcessor {
 
 	public void process(Integer anomes, String filePath) {
 		List<Ventas> ventas = this.getVentasByMesano(anomes);
-		
+
 		List<Ventas> ventasSinAnuladas = ventas.stream().filter(v -> !v.getRazsoc().toUpperCase().contains("ANULADA")).collect(Collectors.toList());
+		List<Ventas> ventasMenorAMil = ventasSinAnuladas.stream().filter(v -> v.getImptot() < 1000).collect(Collectors.toList());
 		
-		this.generarReporteVentas(ventasSinAnuladas, filePath +"REPORTES\\"+ anomes.toString());
-		this.generarArchivosSIAP(ventasSinAnuladas,filePath +"IMPORTACION\\"+ anomes.toString());
+		this.generarReporteVentas(ventasMenorAMil, filePath +"REPORTES\\"+ anomes.toString());
+		this.generarArchivosSIAP(ventasMenorAMil,filePath +"IMPORTACION\\"+ anomes.toString());
 	}
 
 	private List<Ventas> getVentasByMesano(Integer mesano){
@@ -88,12 +89,12 @@ public class VentasProcessor {
 		file.append(totalTotal.toString() + ";");
 
 		LOG.info("---GUARDANDO ARCHIVO EN DISCO---");
-			try {
-				FileUtils.writeStringToFile(new File( filename + ".csv"), file.toString(),"UTF-8");
-			} catch (IOException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
+		try {
+			FileUtils.writeStringToFile(new File( filename + ".csv"), file.toString(),"UTF-8");
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		LOG.info("---FIN PROCESO REPORTE CSV---");
 	}
 
@@ -101,6 +102,8 @@ public class VentasProcessor {
 		LOG.info("---GENERO ARCHIVOS PARA MIGRACION SIAP VENTAS---");
 
 		StringBuilder file = new StringBuilder();
+
+		StringBuilder alicuota = new StringBuilder();
 
 		for (Ventas venta : ventas) {
 			file.append(StringUtils.leftPad(venta.getFechaArchivo(),8,"0"));//fecha
@@ -130,34 +133,35 @@ public class VentasProcessor {
 
 			file.append(StringUtils.leftPad("0",1,"")); //cod operacion
 			file.append(StringUtils.leftPad("1",15,"0")); //otros tributos
-			
+
 			if (venta.getTipoComprobante() == "082")
 				file.append(StringUtils.leftPad("0",8,"0"));
 			else
 				file.append(StringUtils.leftPad(venta.getFechaArchivo(),8,"0"));//fecha vto pago
-			
+
 			file.append("\r");
+
+
+			this.generateArchivoAlicuota(venta,alicuota);
+
 		}
 
-		try {
-			LOG.info("---GUARDANDO ARCHIVOS EN DISCO---");
-			FileUtils.writeStringToFile(new File( filename + ".txt"), file.toString(),"Cp1252");
+		LOG.info("---GUARDANDO ARCHIVOS EN DISCO---");
+		this.saveToFile(filename + ".txt", file);
 
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		
+		LOG.info("---GUARDANDO ALICUOTAS EN DISCO---");
+		this.saveToFile(filename + "-" + "Alicuotas.txt", alicuota);
+
 
 		LOG.info("---FIN PROCESO ARCHIVOS TXT---");
 	}
 
 
-	
+
 	private String getParteEnteraImporte(Float importe) {
 		return Long.toString(importe.longValue());
 	}
-	
+
 	private String getParteDecimalImporte(Float importe) {
 		Float decimales = importe - importe.longValue();
 		String decimalString = decimales.toString().substring(decimales.toString().indexOf(".")+1);
@@ -165,6 +169,31 @@ public class VentasProcessor {
 			return decimalString.substring(0,2);
 		}
 		return decimalString;
+	}
+
+
+	private void generateArchivoAlicuota(Ventas venta, StringBuilder alicuota) {
+
+		LOG.info("---GENERO ALICUOTAS ---");
+		alicuota.append(StringUtils.leftPad(venta.getTipoComprobante(),3,"0"));//tipo comprobante
+		alicuota.append(StringUtils.leftPad(venta.getNroloc().toString(),5,"0"));//punto de venta
+		alicuota.append(StringUtils.leftPad(venta.getNrocom().toString(),20,"0"));//nro comprobante
+		alicuota.append(StringUtils.leftPad(this.getParteEnteraImporte(venta.getImpgra()),13,"0") + StringUtils.leftPad(this.getParteDecimalImporte(venta.getImpgra()),2,"0"));//importe neto gravado
+		alicuota.append(StringUtils.leftPad(venta.getAlicuotaIVA(),4,"0"));//alicuota
+		alicuota.append(StringUtils.leftPad(this.getParteEnteraImporte(venta.getImpiv1()),13,"0") + StringUtils.leftPad(this.getParteDecimalImporte(venta.getImpiv1()),2,"0"));//importe impuesto liquidado
+		alicuota.append("\r");
+
+	}
+
+
+	private void saveToFile(String filename, StringBuilder file) {
+		try {
+			FileUtils.writeStringToFile(new File( filename ), file.toString(),"Cp1252");
+
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 
 }

@@ -299,7 +299,14 @@ public class Ventas{
 		this.impiv6 = impiv6;
 	}
 
+public String getAlicuotaIVA() {
+	if (this.impgra * 0.21 == this.impiv1 ) {
+		return "0005";
+	} else
+		return "0004";
+}
 
+	
 	//	private Float floatToDosDecimales(Float number) {
 	//		NumberFormat formatter = NumberFormat.getInstance(Locale.getDefault());
 	//		formatter.setMaximumFractionDigits(2);

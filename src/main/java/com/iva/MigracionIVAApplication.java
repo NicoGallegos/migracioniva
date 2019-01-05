@@ -29,7 +29,7 @@ public class MigracionIVAApplication implements CommandLineRunner {
 	@Override
 	public void run(String... args) {
 		String filePath = "C:\\Users\\nicol\\Desktop\\GENERADOS\\";
-		Integer year = 1600;
+		Integer year = 1700;
 		for (int i = 1; i <= 12; i++) {
 			LOG.info("------ PROCESANDO MES " + Integer.toString(i) + " ------");
 			processor.process(year+i,filePath);
