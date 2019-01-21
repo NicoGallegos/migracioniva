@@ -31,7 +31,7 @@ public class VentasProcessor {
 
 		List<Ventas> ventasSinAnuladas = ventas.stream().filter(v -> !v.getRazsoc().toUpperCase().contains("ANULADA")).collect(Collectors.toList());
 		List<Ventas> ventasMenorAMil = ventasSinAnuladas.stream().filter(v -> v.getImptot() < 1000).collect(Collectors.toList());
-		
+
 		this.generarReporteVentas(ventasMenorAMil, filePath +"REPORTES\\"+ anomes.toString());
 		this.generarArchivosSIAP(ventasMenorAMil,filePath +"IMPORTACION\\"+ anomes.toString());
 	}

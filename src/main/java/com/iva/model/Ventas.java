@@ -77,8 +77,7 @@ public class Ventas{
 		  Pto de venta :4 -> 082
 
 		 * */
-
-		if (this.letra.toUpperCase() == "A")
+		if (this.letra.toUpperCase().equals("A")) 
 			return "001";
 		else {
 			if (this.nroloc == 2)
